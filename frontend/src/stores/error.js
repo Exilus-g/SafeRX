@@ -37,7 +37,7 @@ export const useErrorStore = defineStore("errorStore", {
         },
       });
       const data = await res.json();
-      if ((authStore.user.id || authStore.user.main_user_id ) === data.user_id) {
+      if ((authStore.user.id || authStore.user.main_user_id) === data.user_id) {
         console.log(data);
         return data;
       } else {

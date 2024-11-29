@@ -1,18 +1,46 @@
 <script setup>
+import { storeToRefs } from "pinia";
 import { RouterLink, useRoute } from "vue-router";
 import { onMounted, ref } from "vue";
 
-// ! ||--------------------------------------------------------------------------------||
-// ! ||                                      Collaborators                             ||
-// ! ||--------------------------------------------------------------------------------||
 import { useCollaboratorStore } from "@/stores/collaborator";
-const { getAllCollaborators, deleteCollaborator } = useCollaboratorStore();
+import ConfirmationModal from "@/components/ConfirmationModal.vue";
+const { successMessage,infoMessage } = storeToRefs(useCollaboratorStore());
+const { getAllCollaborators, deleteCollaborator, clearMessage } =
+  useCollaboratorStore();
 const collaborator = ref([]);
-onMounted(async () => (collaborator.value = await getAllCollaborators()));
+const showModal = ref(false);
+const selectedCollaborator = ref(null);
+
+onMounted(async () => {
+  collaborator.value = await getAllCollaborators();
+  setTimeout(() => {
+    clearMessage();
+  }, 5000);
+});
+const confirmDelete = async () => {
+  if (selectedCollaborator.value) {
+    await deleteCollaborator(selectedCollaborator.value); // Llamada al store
+    collaborator.value = await getAllCollaborators(); // Actualizar la lista
+    selectedCollaborator.value = null;
+    showModal.value = false;
+  }
+};
+
+const openDeleteModal = (collaborator) => {
+  selectedCollaborator.value = collaborator;
+  showModal.value = true;
+};
 </script>
 
 <template>
   <div class="grid grid-cols-1 gap-6 px-40 py-10">
+    <div v-if="successMessage" class="text-green-600 p-4 bg-green-100 border-l-4 border-green-600">
+      {{ successMessage }}
+    </div>
+    <div v-if="infoMessage" class="text-blue-600 p-4 bg-blue-100 border-l-4 border-blue-600">
+      {{ infoMessage }}
+    </div>
     <div class="relative overflow-x-auto border rounded-lg">
       <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <caption
@@ -56,16 +84,17 @@ onMounted(async () => (collaborator.value = await getAllCollaborators()));
             </th>
             <th class="flex items-center space-x-2">
               <RouterLink
-                :to="{ name: 'updatecollaborator', params: { id: collaborator.id } }"
+                :to="{
+                  name: 'updatecollaborator',
+                  params: { id: collaborator.id },
+                }"
               >
                 <span class="icon-[tabler--edit] w-9 h-9 text-mainBlack"></span>
               </RouterLink>
-              <form @submit.prevent="deleteCollaborator(collaborator)">
                 <button
-                  type="submit"
-                  class="icon-[tabler--trash-off] w-9 h-9 text-red-700"
-                ></button>
-              </form>
+                @click.prevent="openDeleteModal(collaborator)"
+                class="icon-[tabler--trash-off] w-9 h-9 text-red-700"
+              ></button>
             </th>
           </tr>
         </tbody>
@@ -78,5 +107,13 @@ onMounted(async () => (collaborator.value = await getAllCollaborators()));
         </tbody>
       </table>
     </div>
+    <ConfirmationModal
+      :visible="showModal"
+      message="¿Estás seguro de que deseas eliminar este colaborador?"
+      confirmButtonText="Sí, eliminar"
+      cancelButtonText="Cancelar"
+      @confirm="confirmDelete"
+      @close="showModal = false"
+    />
   </div>
 </template>

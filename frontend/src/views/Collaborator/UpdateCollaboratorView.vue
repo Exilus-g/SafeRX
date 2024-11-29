@@ -18,12 +18,14 @@ const formData = reactive({
   password_confirmation: "",
 });
 
+
 onMounted(async () => {
     collaborator.value = await getCollaborator(route.params.id);
     formData.name = collaborator.value.name;
     formData.email = collaborator.value.email;
     formData.password = collaborator.value.password;
-    formData.password_confirmation = collaborator.value.password_confirmation;
+    formData.password_confirmation = collaborator.value.password;
+    console.log(collaborator.value);
 })
 </script>
 

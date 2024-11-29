@@ -133,7 +133,6 @@ class CollaboratorController extends Controller implements HasMiddleware
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email,' . $collaborator->id,
             'password'  => [
-                'required',
                 'confirmed',
                 'min:8',
                 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/'

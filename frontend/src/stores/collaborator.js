@@ -5,13 +5,20 @@ export const useCollaboratorStore = defineStore("collaboratorStore", {
   state: () => {
     return {
       errors: {},
+      successMessage: null,
+      infoMessage:null,
+
     };
   },
   actions: {
     clearErrors() {
       this.errors = {};
     },
-    
+    clearMessage() {
+      this.successMessage = null;
+      this.infoMessage = null;
+    },
+
     // ! ||--------------------------------------------------------------------------------||
     // ! ||                                  Get All Collaborators                         ||
     // ! ||--------------------------------------------------------------------------------||
@@ -49,7 +56,7 @@ export const useCollaboratorStore = defineStore("collaboratorStore", {
     // ! ||--------------------------------------------------------------------------------||
     async createCollaborator(formData) {
       const res = await fetch("/api/collaborators", {
-        method: "post",
+        method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -58,11 +65,13 @@ export const useCollaboratorStore = defineStore("collaboratorStore", {
       const data = await res.json();
       if (data.errors) {
         this.errors = data.errors;
+        this.successMessage=null;
       } else {
-        this.router.push({ name: "collaboratorlist" });
+        (this.successMessage = "Colaborador creado exitosamente!"),
+          (this.errors = {}),
+          this.router.push({ name: "collaboratorlist" });
       }
     },
-
     // ! ||--------------------------------------------------------------------------------||
     // ! ||                                 Delete a Collaborator                          ||
     // ! ||--------------------------------------------------------------------------------||
@@ -98,9 +107,11 @@ export const useCollaboratorStore = defineStore("collaboratorStore", {
         const data = await res.json;
         if (data.errors) {
           this.errors = data.errors;
+          this.infoMessage=null;
         } else {
+          (this.infoMessage = "Colaborador actualizado exitosamente!"),
           this.router.push({ name: "collaboratorlist" });
-          this.errors = {};
+          (this.errors = {});
         }
       }
     },

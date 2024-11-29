@@ -7,53 +7,43 @@ import { storeToRefs } from "pinia";
 const { errors } = storeToRefs(useErrorStore());
 const { createError, clearErrors } = useErrorStore();
 
-// ! ||--------------------------------------------------------------------------------||
-// ! ||                                     PROCESS                                    ||
-// ! ||--------------------------------------------------------------------------------||
 import { useProcessStore } from "@/stores/process";
 const { getAllProcess } = useProcessStore();
 const process = ref([]);
-onMounted(async () => (process.value = await getAllProcess()));
 
-// ! ||--------------------------------------------------------------------------------||
-// ! ||                                   CATEGORIES                                   ||
-// ! ||--------------------------------------------------------------------------------||
 import { useErrorCategoryStore } from "@/stores/errorCategory";
 const { getAllCategories } = useErrorCategoryStore();
 const category = ref([]);
-onMounted(async () => (category.value = await getAllCategories()));
 
-// ! ||--------------------------------------------------------------------------------||
-// ! ||                                     PLACES                                     ||
-// ! ||--------------------------------------------------------------------------------||
 import { usePlaceStore } from "@/stores/place";
 const { getAllPlaces } = usePlaceStore();
 const place = ref([]);
-onMounted(async () => (place.value = await getAllPlaces()));
 
-// ! ||--------------------------------------------------------------------------------||
-// ! ||                                     STAFF                                      ||
-// ! ||--------------------------------------------------------------------------------||
 import { useStaffInvolvedStore } from "@/stores/staffInvolved";
 const { getAllStaff } = useStaffInvolvedStore();
 const staff = ref([]);
-onMounted(async () => (staff.value = await getAllStaff()));
 
-// ! ||--------------------------------------------------------------------------------||
-// ! ||                                     FACTORS                                    ||
-// ! ||--------------------------------------------------------------------------------||
+
 import { useFactorStore } from "@/stores/factor";
 const { getAllFactors } = useFactorStore();
 const factor = ref([]);
-onMounted(async () => (factor.value = await getAllFactors()));
 
-// ! ||--------------------------------------------------------------------------------||
-// ! ||                                      TYPES                                     ||
-// ! ||--------------------------------------------------------------------------------||
+
 import { useErrorTypeStore } from "@/stores/errorType";
 const { getAllTypes } = useErrorTypeStore();
 const type = ref([]);
-onMounted(async () => (type.value = await getAllTypes()));
+
+// Combine all the onMounted calls into one
+onMounted(async () => {
+  process.value = await getAllProcess();
+  category.value = await getAllCategories();
+  place.value = await getAllPlaces();
+  staff.value = await getAllStaff();
+  factor.value = await getAllFactors();
+  type.value = await getAllTypes();
+});
+
+
 
 const formData = reactive({
   error_date: "",

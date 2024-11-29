@@ -12,6 +12,11 @@ const formData = reactive({
   json_data: "",
 });
 
+const successAlert = reactive({
+  show: false,
+  message: "¡Diagrama guardado exitosamente!",
+});
+
 // References for the diagram and symbol palette
 const diagramRef = ref(null);
 let diagramInstance = null;
@@ -114,7 +119,10 @@ const onSave = () => {
         : "";
     });
     processStore.createProcess(shapesText);
-
+    successAlert.show = true;
+    setTimeout(() => {
+      successAlert.show = false;
+    }, 5000);
   }
 };
 
@@ -135,7 +143,17 @@ onMounted(async () => {
 </script>
 
 <template>
+  <div>
+  <div
+      v-if="successAlert.show"
+      class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
+      role="alert"
+    >
+      <span class="font-medium">{{ successAlert.message }}</span>
+    </div>
   <div class="container bg-bag">
+    <!-- Success alert -->
+    
     <div class="palette-container pt-6 pr-2">
       <div class="flex gap-x-2">
         <button
@@ -168,6 +186,7 @@ onMounted(async () => {
       ></ejs-diagram>
     </div>
   </div>
+</div>
 </template>
 
 <style>
