@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('area');
             $table->string('folder');
             $table->text('description');
-            $table->foreignId('node_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('node_id')->constrained();
             $table->foreignId('place_id')->constrained()->cascadeOnDelete();
             $table->foreignId('staff_involved_id')->constrained()->cascadeOnDelete();
             $table->foreignId('factor_id')->constrained()->cascadeOnDelete();
