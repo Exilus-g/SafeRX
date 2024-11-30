@@ -5,6 +5,8 @@ export const useStaffInvolvedStore = defineStore("staffInvolvedStore", {
   state: () => {
     return {
       errors: {},
+      successMessage: null,
+      infoMessage:null,
     };
   },
   actions: {
@@ -16,6 +18,11 @@ export const useStaffInvolvedStore = defineStore("staffInvolvedStore", {
      */
     clearErrors() {
       this.errors = {};
+    },
+
+    clearMessage() {
+      this.successMessage = null;
+      this.infoMessage = null;
     },
     
 
@@ -75,6 +82,8 @@ export const useStaffInvolvedStore = defineStore("staffInvolvedStore", {
       if (data.errors) {
         this.errors = data.errors;
       } else {
+        (this.successMessage = "Personal creado exitosamente!"),
+          (this.errors = {}),
         this.router.push({ name: "fieldsettings" });
       }
     },
@@ -122,6 +131,7 @@ export const useStaffInvolvedStore = defineStore("staffInvolvedStore", {
         if (data.errors) {
           this.errors = data.errors;
         } else {
+          (this.infoMessage = "Personal actualizado exitosamente!"),
           this.router.push({ name: "fieldsettings" });
           this.errors = {};
         }

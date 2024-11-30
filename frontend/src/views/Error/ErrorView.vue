@@ -1,42 +1,42 @@
 <script setup>
+import { storeToRefs } from "pinia";
+
 import { RouterLink, useRoute } from "vue-router";
 import { onMounted, ref, computed } from "vue";
 import { initFlowbite } from "flowbite";
 import * as XLSX from "xlsx";
 
 // initialize components based on data attribute selectors
-onMounted(() => {
-  initFlowbite();
-});
 
-// ! ||--------------------------------------------------------------------------------||
-// ! ||                                      Auth                                      ||
-// ! ||--------------------------------------------------------------------------------||
 import { useAuthStore } from "@/stores/auth";
 const authStore = useAuthStore();
 
-// ! ||--------------------------------------------------------------------------------||
-// ! ||                                     ERRORS                                     ||
-// ! ||--------------------------------------------------------------------------------||
 import { useErrorStore } from "@/stores/error";
-const { getAllErrors, deleteError } = useErrorStore();
+const { getAllErrors, deleteError, clearMessage } = useErrorStore();
 const error = ref([]);
+const { successMessage,infoMessage } = storeToRefs(useErrorStore());
 
-// ! ||--------------------------------------------------------------------------------||
-// ! ||                                     PROCESS                                    ||
-// ! ||--------------------------------------------------------------------------------||
+
 import { useProcessStore } from "@/stores/process";
 const { getAllProcess } = useProcessStore();
 const process = ref([]);
-onMounted(async () => (process.value = await getAllProcess()));
 
-// ! ||--------------------------------------------------------------------------------||
-// ! ||                                   CATEGORIES                                   ||
-// ! ||--------------------------------------------------------------------------------||
+
 import { useErrorCategoryStore } from "@/stores/errorCategory";
 const { getAllCategories } = useErrorCategoryStore();
 const category = ref([]);
-onMounted(async () => (category.value = await getAllCategories()));
+
+onMounted(async () => {
+  initFlowbite();
+
+  // Cargar datos relacionados
+  process.value = await getAllProcess();
+  category.value = await getAllCategories();
+
+  setTimeout(() => {
+    clearMessage();
+  }, 5000);
+});
 
 // Filtros
 const filter = ref({
@@ -129,11 +129,33 @@ const exportToExcel = () => {
   XLSX.utils.book_append_sheet(wb, ws, "Errores");
   XLSX.writeFile(wb, "errores_de_medicion.xlsx");
 };
+const showModal = ref(false);
+const selectedError = ref(null);
+
+import ConfirmationModal from "@/components/ConfirmationModal.vue";
+const confirmDelete = async () => {
+  if (selectedError.value) {
+    await deleteError(selectedError.value); // Llamada al store
+    error.value = await getAllErrors(); // Actualizar la lista
+    selectedError.value = null;
+    showModal.value = false;
+  }
+};
+
+const openDeleteModal = (error) => {
+  selectedError.value = error;
+  showModal.value = true;
+};
 </script>
 
 <template>
   <div class="space-y-4">
-    <!-- Filtros -->
+    <div v-if="successMessage" class="text-green-600 p-4 bg-green-100 border-l-4 border-green-600">
+      {{ successMessage }}
+    </div>
+    <div v-if="infoMessage" class="text-blue-600 p-4 bg-blue-100 border-l-4 border-blue-600">
+      {{ infoMessage }}
+    </div>
     <div class="pt-10 px-10">
       <h1 class="text-buttonTitle text-xl font-semibold">Filtros</h1>
       <!-- Grid de 4 columnas -->
@@ -347,15 +369,10 @@ const exportToExcel = () => {
               >
                 <span class="icon-[tabler--edit] w-9 h-9 text-mainBlack"></span>
               </RouterLink>
-              <form
-                @submit.prevent="deleteError(error)"
-                v-if="authStore.roles[0] === 'admin'"
-              >
-                <button
-                  type="submit"
-                  class="icon-[tabler--trash-off] w-9 h-9 text-red-700"
-                ></button>
-              </form>
+              <button v-if="authStore.roles[0] === 'admin'"
+                @click.prevent="openDeleteModal(error)"
+                class="icon-[tabler--trash-off] w-9 h-9 text-red-700"
+              ></button>
             </th>
           </tr>
         </tbody>
@@ -397,6 +414,14 @@ const exportToExcel = () => {
           Siguiente
         </button>
       </div>
+      <ConfirmationModal
+      :visible="showModal"
+      message="¿Estás seguro de que deseas eliminar este error?"
+      confirmButtonText="Sí, eliminar"
+      cancelButtonText="Cancelar"
+      @confirm="confirmDelete"
+      @close="showModal = false"
+    />
     </div>
   </div>
 </template>

@@ -5,6 +5,8 @@ export const useFactorStore = defineStore("factorStore", {
   state: () => {
     return {
       errors: {},
+      successMessage: null,
+      infoMessage:null,
     };
   },
   actions: {
@@ -14,6 +16,10 @@ export const useFactorStore = defineStore("factorStore", {
      */
     clearErrors() {
       this.errors = {};
+    },
+    clearMessage() {
+      this.successMessage = null;
+      this.infoMessage = null;
     },
 
     // ! ||--------------------------------------------------------------------------------||
@@ -63,6 +69,8 @@ export const useFactorStore = defineStore("factorStore", {
       if (data.errors) {
         this.errors = data.errors;
       } else {
+        (this.successMessage = "Factor creado exitosamente!"),
+          (this.errors = {}),
         this.router.push({ name: "fieldsettings" });
       }
     },
@@ -103,6 +111,7 @@ export const useFactorStore = defineStore("factorStore", {
         if (data.errors) {
           this.errors = data.errors;
         } else {
+          (this.infoMessage = "Factor actualizado exitosamente!"),
           this.router.push({ name: "fieldsettings" });
           this.errors = {};
         }

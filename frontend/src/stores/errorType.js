@@ -5,11 +5,17 @@ export const useErrorTypeStore = defineStore("errorTypeStore", {
   state: () => {
     return {
       errors: {},
+      successMessage: null,
+      infoMessage:null,
     };
   },
   actions: {
     clearErrors() {
       this.errors = {};
+    },
+    clearMessage() {
+      this.successMessage = null;
+      this.infoMessage = null;
     },
     
     // ! ||--------------------------------------------------------------------------------||
@@ -58,7 +64,10 @@ export const useErrorTypeStore = defineStore("errorTypeStore", {
       const data = await res.json();
       if (data.errors) {
         this.errors = data.errors;
+        this.successMessage=null;
       } else {
+        (this.successMessage = "Tipo de error creado exitosamente!"),
+          (this.errors = {}),
         this.router.push({ name: "fieldsettings" });
       }
     },
@@ -98,7 +107,9 @@ export const useErrorTypeStore = defineStore("errorTypeStore", {
         const data = await res.json;
         if (data.errors) {
           this.errors = data.errors;
+          this.infoMessage=null;
         } else {
+          (this.infoMessage = "Tipo de error actualizado exitosamente!"),
           this.router.push({ name: "fieldsettings" });
           this.errors = {};
         }

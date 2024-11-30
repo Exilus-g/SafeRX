@@ -8,6 +8,7 @@ import ConfirmationModal from "@/components/ConfirmationModal.vue";
 const { successMessage,infoMessage } = storeToRefs(useCollaboratorStore());
 const { getAllCollaborators, deleteCollaborator, clearMessage } =
   useCollaboratorStore();
+  
 const collaborator = ref([]);
 const showModal = ref(false);
 const selectedCollaborator = ref(null);
@@ -21,7 +22,6 @@ onMounted(async () => {
 const confirmDelete = async () => {
   if (selectedCollaborator.value) {
     await deleteCollaborator(selectedCollaborator.value); // Llamada al store
-    collaborator.value = await getAllCollaborators(); // Actualizar la lista
     selectedCollaborator.value = null;
     showModal.value = false;
   }

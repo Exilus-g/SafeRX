@@ -5,6 +5,8 @@ export const usePlaceStore = defineStore("placeStore", {
   state: () => {
     return {
       errors: {},
+      successMessage: null,
+      infoMessage:null,
     };
   },
   actions: {
@@ -16,6 +18,10 @@ export const usePlaceStore = defineStore("placeStore", {
      */
     clearErrors() {
       this.errors = {};
+    },
+    clearMessage() {
+      this.successMessage = null;
+      this.infoMessage = null;
     },
     
     
@@ -75,6 +81,8 @@ export const usePlaceStore = defineStore("placeStore", {
       if (data.errors) {
         this.errors = data.errors;
       } else {
+        (this.successMessage = "Lugar creado exitosamente!"),
+          (this.errors = {}),
         this.router.push({ name: "fieldsettings" });
       }
     },
@@ -123,6 +131,7 @@ export const usePlaceStore = defineStore("placeStore", {
         if (data.errors) {
           this.errors = data.errors;
         } else {
+          (this.infoMessage = "Lugar actualizado exitosamente!"),
           this.router.push({ name: "fieldsettings" });
           this.errors = {};
         }

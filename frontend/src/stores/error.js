@@ -5,11 +5,17 @@ export const useErrorStore = defineStore("errorStore", {
   state: () => {
     return {
       errors: {},
+      successMessage: null,
+      infoMessage:null,
     };
   },
   actions: {
     clearErrors() {
       this.errors = {};
+    },
+    clearMessage() {
+      this.successMessage = null;
+      this.infoMessage = null;
     },
 
     // ! ||--------------------------------------------------------------------------------||
@@ -60,6 +66,8 @@ export const useErrorStore = defineStore("errorStore", {
       if (data.errors) {
         this.errors = data.errors;
       } else {
+        (this.successMessage = "Error registrado exitosamente!"),
+          (this.errors = {}),
         this.router.push({ name: "errors" });
       }
     },
@@ -102,6 +110,7 @@ export const useErrorStore = defineStore("errorStore", {
         if (data.errors) {
           this.errors = data.errors;
         } else {
+          (this.infoMessage = "Error actualizado exitosamente!"),
           this.router.push({ name: "errors" });
           this.errors = {};
         }
