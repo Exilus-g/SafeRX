@@ -26,17 +26,7 @@ import { useErrorCategoryStore } from "@/stores/errorCategory";
 const { getAllCategories } = useErrorCategoryStore();
 const category = ref([]);
 
-onMounted(async () => {
-  initFlowbite();
 
-  // Cargar datos relacionados
-  process.value = await getAllProcess();
-  category.value = await getAllCategories();
-
-  setTimeout(() => {
-    clearMessage();
-  }, 5000);
-});
 
 // Filtros
 const filter = ref({
@@ -45,9 +35,6 @@ const filter = ref({
   selected_categories: [],
 });
 
-onMounted(async () => {
-  error.value = await getAllErrors();
-});
 
 // Paginación
 const currentPage = ref(1);
@@ -146,6 +133,19 @@ const openDeleteModal = (error) => {
   selectedError.value = error;
   showModal.value = true;
 };
+onMounted(async () => {
+  initFlowbite();
+
+  // Cargar datos relacionados
+  process.value = await getAllProcess();
+  category.value = await getAllCategories();
+  error.value = await getAllErrors();
+
+
+  setTimeout(() => {
+    clearMessage();
+  }, 5000);
+});
 </script>
 
 <template>
