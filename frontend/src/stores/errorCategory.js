@@ -12,8 +12,9 @@ export const useErrorCategoryStore = defineStore("errorCategoryStore", {
     // ! ||                               Get All Categories                               ||
     // ! ||--------------------------------------------------------------------------------||
     async getAllCategories() {
-      const res = await fetch("/api/error_categories", {
+      const res = await fetch("https://estudiante.tecinfouppue.com/backend/public/api/error_categories", {
         headers: {
+          'Content-Type': 'application/json',
           authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });

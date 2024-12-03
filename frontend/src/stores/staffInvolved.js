@@ -31,8 +31,9 @@ export const useStaffInvolvedStore = defineStore("staffInvolvedStore", {
      * @returns {Promise} A promise that resolves to the data of all staff involved.
      */
     async getAllStaff() {
-      const res = await fetch("/api/staff_involveds", {
+      const res = await fetch("https://estudiante.tecinfouppue.com/backend/public/api/staff_involveds", {
         headers: {
+          'Content-Type': 'application/json',
           authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
@@ -51,8 +52,9 @@ export const useStaffInvolvedStore = defineStore("staffInvolvedStore", {
     async getStaff(staff) {
       const authStore = useAuthStore();
 
-      const res = await fetch(`/api/staff_involveds/${staff}`, {
+      const res = await fetch(`https://estudiante.tecinfouppue.com/backend/public/api/staff_involveds/${staff}`, {
         headers: {
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
@@ -71,9 +73,10 @@ export const useStaffInvolvedStore = defineStore("staffInvolvedStore", {
      * @returns None
      */
     async createStaff(formData) {
-      const res = await fetch("/api/staff_involveds", {
+      const res = await fetch("https://estudiante.tecinfouppue.com/backend/public/api/staff_involveds", {
         method: "post",
         headers: {
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify(formData),
@@ -98,9 +101,10 @@ export const useStaffInvolvedStore = defineStore("staffInvolvedStore", {
       const authStore = useAuthStore();
 
       if (authStore.user.id === staff.user_id) {
-        const res = await fetch(`/api/staff_involveds/${staff.id}`, {
+        const res = await fetch(`https://estudiante.tecinfouppue.com/backend/public/api/staff_involveds/${staff.id}`, {
           method: "delete",
           headers: {
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
@@ -120,9 +124,10 @@ export const useStaffInvolvedStore = defineStore("staffInvolvedStore", {
       const authStore = useAuthStore();
 
       if (authStore.user.id === staff.user_id) {
-        const res = await fetch(`/api/staff_involveds/${staff.id}`, {
+        const res = await fetch(`https://estudiante.tecinfouppue.com/backend/public/api/staff_involveds/${staff.id}`, {
           method: "put",
           headers: {
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
           body: JSON.stringify(formData),

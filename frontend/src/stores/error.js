@@ -22,8 +22,9 @@ export const useErrorStore = defineStore("errorStore", {
     // ! ||                                 Get All Errors                                 ||
     // ! ||--------------------------------------------------------------------------------||
     async getAllErrors() {
-      const res = await fetch("/api/errors", {
+      const res = await fetch("https://estudiante.tecinfouppue.com/backend/public/api/errors", {
         headers: {
+          'Content-Type': 'application/json',
           authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
@@ -37,8 +38,9 @@ export const useErrorStore = defineStore("errorStore", {
     async getError(error) {
       const authStore = useAuthStore();
 
-      const res = await fetch(`/api/errors/${error}`, {
+      const res = await fetch(`https://estudiante.tecinfouppue.com/backend/public/api/errors/${error}`, {
         headers: {
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
@@ -55,9 +57,10 @@ export const useErrorStore = defineStore("errorStore", {
     // ! ||                                 Create a Error                                 ||
     // ! ||--------------------------------------------------------------------------------||
     async createError(formData) {
-      const res = await fetch("/api/errors", {
+      const res = await fetch("https://estudiante.tecinfouppue.com/backend/public/api/errors", {
         method: "post",
         headers: {
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify(formData),
@@ -79,9 +82,10 @@ export const useErrorStore = defineStore("errorStore", {
       const authStore = useAuthStore();
 
       if (authStore.user.id === error.user_id) {
-        const res = await fetch(`/api/errors/${error.id}`, {
+        const res = await fetch(`https://estudiante.tecinfouppue.com/backend/public/api/errors/${error.id}`, {
           method: "delete",
           headers: {
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
@@ -99,9 +103,10 @@ export const useErrorStore = defineStore("errorStore", {
       if (
         (authStore.user.id || authStore.user.main_user_id) === error.user_id
       ) {
-        const res = await fetch(`/api/errors/${error.id}`, {
+        const res = await fetch(`https://estudiante.tecinfouppue.com/backend/public/api/errors/${error.id}`, {
           method: "put",
           headers: {
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
           body: JSON.stringify(formData),

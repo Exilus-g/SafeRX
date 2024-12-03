@@ -26,8 +26,9 @@ export const useFactorStore = defineStore("factorStore", {
     // ! ||                                 Get All Factor                                 ||
     // ! ||--------------------------------------------------------------------------------||
     async getAllFactors() {
-      const res = await fetch("/api/factors", {
+      const res = await fetch("https://estudiante.tecinfouppue.com/backend/public/api/factors", {
         headers: {
+          'Content-Type': 'application/json',
           authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
@@ -41,8 +42,9 @@ export const useFactorStore = defineStore("factorStore", {
     async getFactor(factor) {
       const authStore = useAuthStore();
 
-      const res = await fetch(`/api/factors/${factor}`, {
+      const res = await fetch(`https://estudiante.tecinfouppue.com/backend/public/api/factors/${factor}`, {
         headers: {
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
@@ -58,9 +60,10 @@ export const useFactorStore = defineStore("factorStore", {
     // ! ||                                 Create a Factor                                ||
     // ! ||--------------------------------------------------------------------------------||
     async createFactor(formData) {
-      const res = await fetch("/api/factors", {
+      const res = await fetch("https://estudiante.tecinfouppue.com/backend/public/api/factors", {
         method: "post",
         headers: {
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify(formData),
@@ -82,9 +85,10 @@ export const useFactorStore = defineStore("factorStore", {
       const authStore = useAuthStore();
 
       if (authStore.user.id === factor.user_id) {
-        const res = await fetch(`/api/factors/${factor.id}`, {
+        const res = await fetch(`https://estudiante.tecinfouppue.com/backend/public/api/factors/${factor.id}`, {
           method: "delete",
           headers: {
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
@@ -100,9 +104,10 @@ export const useFactorStore = defineStore("factorStore", {
       const authStore = useAuthStore();
 
       if (authStore.user.id === factor.user_id) {
-        const res = await fetch(`/api/factors/${factor.id}`, {
+        const res = await fetch(`https://estudiante.tecinfouppue.com/backend/public/api/factors/${factor.id}`, {
           method: "put",
           headers: {
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
           body: JSON.stringify(formData),

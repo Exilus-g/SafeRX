@@ -30,8 +30,9 @@ export const usePlaceStore = defineStore("placeStore", {
      * @returns {Promise} A promise that resolves to the data retrieved from the API.
      */
     async getAllPlaces() {
-      const res = await fetch("/api/places", {
+      const res = await fetch("https://estudiante.tecinfouppue.com/backend/public/api/places", {
         headers: {
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
@@ -49,8 +50,9 @@ export const usePlaceStore = defineStore("placeStore", {
     async getPlace(place) {
       const authStore = useAuthStore();
 
-      const res = await fetch(`/api/places/${place}`, {
+      const res = await fetch(`https://estudiante.tecinfouppue.com/backend/public/api/places/${place}`, {
         headers: {
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
@@ -70,9 +72,10 @@ export const usePlaceStore = defineStore("placeStore", {
      * @returns None
      */
     async createPlace(formData) {
-      const res = await fetch("/api/places", {
+      const res = await fetch("https://estudiante.tecinfouppue.com/backend/public/api/places", {
         method: "post",
         headers: {
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify(formData),
@@ -98,9 +101,10 @@ export const usePlaceStore = defineStore("placeStore", {
       const authStore = useAuthStore();
 
       if (authStore.user.id === place.user_id) {
-        const res = await fetch(`/api/places/${place.id}`, {
+        const res = await fetch(`https://estudiante.tecinfouppue.com/backend/public/api/places/${place.id}`, {
           method: "delete",
           headers: {
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
@@ -120,9 +124,10 @@ export const usePlaceStore = defineStore("placeStore", {
       const authStore = useAuthStore();
 
       if (authStore.user.id === place.user_id) {
-        const res = await fetch(`/api/places/${place.id}`, {
+        const res = await fetch(`https://estudiante.tecinfouppue.com/backend/public/api/places/${place.id}`, {
           method: "put",
           headers: {
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
           body: JSON.stringify(formData),

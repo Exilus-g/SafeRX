@@ -19,8 +19,9 @@ export const useAuthStore = defineStore("authStore", {
     async getUser() {
       const token = localStorage.getItem("token");
       if (token) {
-        const res = await fetch("/api/user", {
+        const res = await fetch("https://estudiante.tecinfouppue.com/backend/public/api/user", {
           headers: {
+            'Content-Type': 'application/json',
             authorization: `Bearer ${token}`,
           },
         });
@@ -42,9 +43,12 @@ export const useAuthStore = defineStore("authStore", {
      * @returns None
      */
     async authenticate(apiRoute, formData) {
-      const res = await fetch(`/api/${apiRoute}`, {
+      const res = await fetch(`https://estudiante.tecinfouppue.com/backend/public/api/${apiRoute}`, {
         method: "post",
         body: JSON.stringify(formData),
+        headers:{
+          'Content-Type': 'application/json',
+        }
       });
 
       const data = await res.json();
@@ -68,7 +72,7 @@ export const useAuthStore = defineStore("authStore", {
      * @returns None
      */
     async logout() {
-      const res = await fetch(`/api/logout`, {
+      const res = await fetch(`https://estudiante.tecinfouppue.com/backend/public/api/logout`, {
         method: "post",
         headers: {
           authorization: `Bearer ${localStorage.getItem("token")}`,

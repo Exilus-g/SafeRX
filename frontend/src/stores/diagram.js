@@ -15,8 +15,9 @@ export const useDiagramStore = defineStore("diagramStore", {
     async getDiagram() {
       if (localStorage.getItem("token")) {
         try {
-          const res = await fetch("/api/diagrams", {
+          const res = await fetch("https://estudiante.tecinfouppue.com/backend/public/api/diagrams", {
             headers: {
+              'Content-Type': 'application/json',
               authorization: `Bearer ${localStorage.getItem("token")}`,
             },
           });
@@ -39,9 +40,10 @@ export const useDiagramStore = defineStore("diagramStore", {
     // ! ||--------------------------------------------------------------------------------||
     async createDiagram(formData) {
       try {
-        const res = await fetch("/api/diagrams", {
+        const res = await fetch("https://estudiante.tecinfouppue.com/backend/public/api/diagrams", {
           method: "POST",
           headers: {
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${localStorage.getItem("token")}`,
             "Content-Type": "application/json",
           },

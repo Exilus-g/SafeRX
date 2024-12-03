@@ -23,8 +23,9 @@ export const useCollaboratorStore = defineStore("collaboratorStore", {
     // ! ||                                  Get All Collaborators                         ||
     // ! ||--------------------------------------------------------------------------------||
     async getAllCollaborators() {
-      const res = await fetch("/api/collaborators", {
+      const res = await fetch("https://estudiante.tecinfouppue.com/backend/public/api/collaborators", {
         headers: {
+          'Content-Type': 'application/json',
           authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
@@ -38,8 +39,9 @@ export const useCollaboratorStore = defineStore("collaboratorStore", {
     async getCollaborator(collaborator) {
       const authStore = useAuthStore();
 
-      const res = await fetch(`/api/collaborators/${collaborator}`, {
+      const res = await fetch(`https://estudiante.tecinfouppue.com/backend/public/api/collaborators/${collaborator}`, {
         headers: {
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
@@ -55,9 +57,10 @@ export const useCollaboratorStore = defineStore("collaboratorStore", {
     // ! ||                                 Create a Collaborator                          ||
     // ! ||--------------------------------------------------------------------------------||
     async createCollaborator(formData) {
-      const res = await fetch("/api/collaborators", {
+      const res = await fetch("https://estudiante.tecinfouppue.com/backend/public/api/collaborators", {
         method: "POST",
         headers: {
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify(formData),
@@ -79,9 +82,10 @@ export const useCollaboratorStore = defineStore("collaboratorStore", {
       const authStore = useAuthStore();
 
       if (authStore.user.id === collaborator.main_user_id) {
-        const res = await fetch(`/api/collaborators/${collaborator.id}`, {
+        const res = await fetch(`https://estudiante.tecinfouppue.com/backend/public/api/collaborators/${collaborator.id}`, {
           method: "delete",
           headers: {
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
@@ -97,9 +101,10 @@ export const useCollaboratorStore = defineStore("collaboratorStore", {
       const authStore = useAuthStore();
 
       if (authStore.user.id === collaborator.main_user_id) {
-        const res = await fetch(`/api/collaborators/${collaborator.id}`, {
+        const res = await fetch(`https://estudiante.tecinfouppue.com/backend/public/api/collaborators/${collaborator.id}`, {
           method: "put",
           headers: {
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
           body: JSON.stringify(formData),

@@ -22,8 +22,9 @@ export const useErrorTypeStore = defineStore("errorTypeStore", {
     // ! ||                                  Get All Types                                 ||
     // ! ||--------------------------------------------------------------------------------||
     async getAllTypes() {
-      const res = await fetch("/api/error_types", {
+      const res = await fetch("https://estudiante.tecinfouppue.com/backend/public/api/error_types", {
         headers: {
+          'Content-Type': 'application/json',
           authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
@@ -37,8 +38,9 @@ export const useErrorTypeStore = defineStore("errorTypeStore", {
     async getType(type) {
       const authStore = useAuthStore();
 
-      const res = await fetch(`/api/error_types/${type}`, {
+      const res = await fetch(`https://estudiante.tecinfouppue.com/backend/public/api/error_types/${type}`, {
         headers: {
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
@@ -54,9 +56,10 @@ export const useErrorTypeStore = defineStore("errorTypeStore", {
     // ! ||                                  Create a Type                                 ||
     // ! ||--------------------------------------------------------------------------------||
     async createType(formData) {
-      const res = await fetch("/api/error_types", {
+      const res = await fetch("https://estudiante.tecinfouppue.com/backend/public/api/error_types", {
         method: "post",
         headers: {
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify(formData),
@@ -79,9 +82,10 @@ export const useErrorTypeStore = defineStore("errorTypeStore", {
       const authStore = useAuthStore();
 
       if (authStore.user.id === type.user_id) {
-        const res = await fetch(`/api/error_types/${type.id}`, {
+        const res = await fetch(`https://estudiante.tecinfouppue.com/backend/public/api/error_types/${type.id}`, {
           method: "delete",
           headers: {
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
@@ -97,9 +101,10 @@ export const useErrorTypeStore = defineStore("errorTypeStore", {
       const authStore = useAuthStore();
 
       if (authStore.user.id === type.user_id) {
-        const res = await fetch(`/api/error_types/${type.id}`, {
+        const res = await fetch(`https://estudiante.tecinfouppue.com/backend/public/api/error_types/${type.id}`, {
           method: "put",
           headers: {
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
           body: JSON.stringify(formData),

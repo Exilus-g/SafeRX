@@ -14,8 +14,9 @@ export const useProcessStore = defineStore("processStore", {
      * @returns {Promise} A promise that resolves to the data fetched from the server.
      */
     async getAllProcess() {
-      const res = await fetch("/api/nodes", {
+      const res = await fetch("https://estudiante.tecinfouppue.com/backend/public/api/nodes", {
         headers: {
+          'Content-Type': 'application/json',
           authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
@@ -30,9 +31,10 @@ export const useProcessStore = defineStore("processStore", {
      * @returns None
      */
     async createProcess(shapesText) {
-      const res = await fetch("/api/nodes", {
+      const res = await fetch("https://estudiante.tecinfouppue.com/backend/public/api/nodes", {
         method: "post",
         headers: {
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem("token")}`,
           "Content-Type": "application/json",
         },
