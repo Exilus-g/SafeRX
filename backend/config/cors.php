@@ -17,13 +17,13 @@ return [
 
     'paths' => ['*'],
 
-    'allowed_methods' => ['GET','POST','PUT','DELETE'],
+    'allowed_methods' => ['*'],
 
     'allowed_origins' => ['https://estudiante.tecinfouppue.com'],
 
     'allowed_origins_patterns' => [],
 
-    'allowed_headers' => ['Origin','Content-Type','X-Auth-Token'],
+    'allowed_headers' => ['*'],
 
     'exposed_headers' => [],
 

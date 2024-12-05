@@ -7,7 +7,7 @@ import { ButtonComponent } from '@syncfusion/ej2-vue-buttons';
 import App from './App.vue'
 import router from './router'
 import { registerLicense} from '@syncfusion/ej2-base'
-registerLicense('ORg4AjUWIQA/Gnt2UlhhQlVMfV5AQmFWfFN0QXNYflRwcF9CZEwxOX1dQl9nSH9TdEdgWXlccHNXRmE=')
+registerLicense('Ngo9BigBOggjHTQxAR8/V1NDaF1cX2hIYVdpR2Nbek5zflVGallXVAciSV9jS3pSdEVmWXxecXRVT2hVVw==')
 
 const app = createApp(App)
 const pinia = createPinia()
