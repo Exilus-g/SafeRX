@@ -32,7 +32,6 @@ export const usePlaceStore = defineStore("placeStore", {
     async getAllPlaces() {
       const res = await fetch("https://estudiante.tecinfouppue.com/backend/public/api/places", {
         headers: {
-          'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
