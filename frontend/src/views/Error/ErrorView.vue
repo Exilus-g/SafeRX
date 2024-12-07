@@ -299,7 +299,6 @@ onMounted(async () => {
           <div class="float-right flex gap-2">
             <RouterLink
               :to="{ name: 'errorform' }"
-              v-if="authStore.roles[0] === 'admin'"
             >
               <button
                 class="bg-buttonTitle text-lg text-white rounded-lg w-20 h-10 hover:bg-mainBlack"
